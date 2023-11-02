@@ -1,0 +1,79 @@
+2265. Count Nodes Equal to Average of Subtree
+
+STATEMENT
+Given the root of a binary tree, return the number of nodes where the value of the node is equal to the average 
+of the values in its subtree.
+Note:
+    The average of n elements is the sum of the n elements divided by n and rounded down to the nearest integer.
+    A subtree of root is a tree consisting of root and all of its descendants.
+
+SOLUTION
+
+C++
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution
+{
+public:
+    int ans;
+    pair<int, int>dfs(TreeNode* root)
+    {
+        if(root == nullptr)
+        {
+            return {-1, 0};
+        }
+        
+        pair<int, int>lp=dfs(root->left);
+        pair<int, int>rp=dfs(root->right);
+        
+        int l=0, r=0;
+        
+        if(lp.first != -1)
+        {
+            l=lp.first;
+        }
+        if(rp.first != -1)
+        {
+            r=rp.first;
+        }
+        
+        int res=(root->val+l+r)/(1+lp.second+rp.second);
+        
+        if(res == root->val)
+        {
+            ans++;
+        }
+        
+        return {root->val+l+r, 1+lp.second+rp.second};
+        
+    }
+    int averageOfSubtree(TreeNode* root)
+    {
+        
+        ans=0;
+        dfs(root);
+        return ans;
+
+    }
+};
+
