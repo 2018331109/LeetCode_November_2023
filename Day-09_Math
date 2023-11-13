@@ -1,0 +1,34 @@
+1759. Count Number of Homogenous Substrings
+
+STATEMENT
+Given a string s, return the number of homogenous substrings of s. Since the answer may be too large, 
+return it modulo 10^9 + 7.
+A string is homogenous if all the characters of the string are the same.
+A substring is a contiguous sequence of characters within a string.
+
+SOLUTION
+class Solution {
+public:
+    int countHomogenous(string s) {
+        int n=s.size();
+        int i=1;
+        int j=0;
+        int ans=0, md=1000000007;
+        while(j<s.size())
+        {
+            int k=2;
+            ans+=1;
+            ans%=md;
+            while(j+1<n && s[j]==s[j+1])
+            {
+                ans+=k;
+                k++;
+                ans%=md;
+                j++;
+            }
+            j++;
+        }
+
+        return ans;
+    }
+};
