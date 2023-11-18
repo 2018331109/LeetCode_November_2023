@@ -1,0 +1,45 @@
+1838. Frequency of the Most Frequent Element
+
+STATEMENT
+The frequency of an element is the number of times it occurs in an array.
+You are given an integer array nums and an integer k. In one operation, you can choose an index of nums and 
+increment the element at that index by 1.
+Return the maximum possible frequency of an element after performing at most k operations.
+
+SOLUTION
+
+C++
+class Solution
+{
+public:
+    int maxFrequency(vector<int>& nums, int k)
+    {
+        sort(nums.begin(), nums.end());
+        long long n=nums.size();
+        int ans=0;
+        long long cnt=0;
+        long long i=0, j=0;
+        long long cur=0;
+        int  len=0;
+        while(j<n)
+        {
+            cur+=nums[j];
+            len=j-i+1;
+            long long tobe=static_cast<long long>(len)*nums[j];
+            if(tobe-cur<=k)
+            {
+                ans=max(ans, len);
+            }
+            else
+            {
+                cur-=nums[i];
+                i++;
+            }
+            j++;
+        }
+
+        return ans;
+
+
+    }
+};
