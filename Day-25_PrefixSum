@@ -1,0 +1,48 @@
+1685. Sum of Absolute Differences in a Sorted Array
+
+STATEMENT
+You are given an integer array nums sorted in non-decreasing order.
+Build and return an integer array result with the same length as nums such that result[i] is equal to the 
+summation of absolute differences between nums[i] and all the other elements in the array.
+In other words, result[i] is equal to sum(|nums[i]-nums[j]|) where 0 <= j < nums.length and j != i (0-indexed).
+
+SOLUTION
+
+C++
+class Solution
+{
+public:
+    vector<int> getSumAbsoluteDifferences(vector<int>& nums)
+    {
+        int n=nums.size();
+        int presum[n];
+        presum[0]=nums[0];
+        for(int i=1;i<n;i++)
+        {
+            presum[i]=presum[i-1]+nums[i];
+            
+        }
+        
+        int postsum[n];
+        postsum[n-1]=nums[n-1];
+        for(int i=n-2;i>=0;i--)
+        {
+            postsum[i]=postsum[i+1]+nums[i];
+        }
+        
+        vector<int>ans;
+        ans.push_back(abs(postsum[1]-((n-1)*nums[0])));
+        for(int i=1;i<n-1;i++)
+        {
+            int pre=abs(presum[i-1]-(i*nums[i]));
+            int post=abs(postsum[i+1]-((n-i-1)*nums[i]));
+            ans.push_back(pre+post);
+        }
+        
+        ans.push_back(abs(presum[n-2]-((n-1)*nums[n-1])));
+        
+        return ans;
+
+
+    }
+};
