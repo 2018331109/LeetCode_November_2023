@@ -1,0 +1,58 @@
+935. Knight Dialer
+
+STATEMENT
+The chess knight has a unique movement, it may move two squares vertically and one square horizontally, 
+or two squares horizontally and one square vertically (with both forming the shape of an L). 
+The possible movements of chess knight are shown in this diagaram:
+
+SOLUTION
+
+C++
+#include<bits/stdc++.h>
+using namespace std;
+
+class Solution
+{
+public:
+    long ans;
+    const int mod=1e9+7;
+    vector<vector<int>> mp= {{4, 6}, {6, 8}, {7, 9}, {4, 8}, {0, 3, 9}, {}, {0, 1, 7},  {2, 6}, {1, 3}, {2, 4}};
+
+    long recurse(int remain, int digit, vector<vector<int>>& dp)
+    {
+        if (remain == 0)
+        {
+            return 1;
+        }
+
+        if(dp[remain][digit] != -1)
+        {
+            return dp[remain][digit];
+        }
+
+        long ways=0;
+        for(auto it:mp[digit])
+        {
+            ways+=recurse(remain-1, it, dp);
+            ways%=mod;
+        }
+
+        return dp[remain][digit]=ways;
+    }
+
+    int knightDialer(int n)
+    {
+        vector<vector<int>>dp(n, vector<int>(10, -1));
+        ans=0;
+        for(int i=0;i<10;i++)
+        {
+            ans+=recurse(n-1, i, dp);
+            ans%=mod;
+        }
+
+        return ans;
+    }
+};
+
+
+ 
