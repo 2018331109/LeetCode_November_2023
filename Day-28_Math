@@ -1,0 +1,78 @@
+2147. Number of Ways to Divide a Long Corridor
+
+STATEMETN
+Along a long library corridor, there is a line of seats and decorative plants. You are given a 0-indexed string 
+corridor of length n consisting of letters 'S' and 'P' where each 'S' represents a seat and each 'P' represents a plant.
+One room divider has already been installed to the left of index 0, and another to the right of index n - 1. 
+Additional room dividers can be installed. For each position between indices i - 1 and i (1 <= i <= n - 1), 
+at most one divider can be installed.
+Divide the corridor into non-overlapping sections, where each section has exactly two seats with any number of plants. 
+There may be multiple ways to perform the division. Two ways are different if there is a position with a room divider 
+installed in the first way but not in the second way.
+Return the number of ways to divide the corridor. Since the answer may be very large, return it modulo 10^9 + 7. 
+If there is no way, return 0.
+
+SOLUTION
+
+C++
+class Solution
+{
+public:
+    int mod=1e9+7;
+    int numberOfWays(string s)
+    {
+
+
+        int n=s.size();
+
+        int sc=0, pc=0;
+        int i=0, j=n-1;
+        while(i<n && s[i]=='P')
+        {
+            i++;
+        }
+
+        while(j>=0 && s[j]=='P')
+        {
+            j--;
+        }
+
+        long ans=1;
+        int f=0;
+        int last=i;
+        int cnt=0;
+        while(i<=j)
+        {
+            if(s[i]=='S')
+            {
+                cnt++;
+                //cout<<cnt<<endl;
+                if(cnt%2==0)
+                {
+                    last=i;
+                    f=1;
+                }
+                if(cnt%2 && f==1)
+                {
+                    ans*=(i-last);
+                    ans%=mod;
+                }
+            }
+
+            i++;
+        }
+
+
+        if(cnt>=2 && cnt%2==0)
+        {
+
+            return static_cast<int>(ans);
+        }
+        else
+        {
+
+            return 0;
+        }
+
+    }
+};
